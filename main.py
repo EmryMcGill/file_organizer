@@ -1,11 +1,7 @@
 # author: Emry McGill
-# created: Jul 27, 2024
-# last updated: Jul 27, 2024
-# Desc: Sorts all files and directories from downloads folder into proper places
-# Ideas to improve it: let the user choose the source folder, and destination folders. 
 
 # imports
-import os, re, shutil, tkinter as tk
+import os, re, shutil, yaml, sys, PyInquirer
 from tkinter import filedialog
 
 # define paths
@@ -18,28 +14,8 @@ misc = '/home/emry/Documents/misc'
 
 
 def main():
-    # create GUI
-    root = tk.Tk()
-    root.geometry('400x300')
-    root.title('file organizer')
+    pass
 
-    #srcFrame = tk.Frame(root)
-    #srcFrame.columnconfigure(0, weight=1)
-    #srcFrame.columnconfigure(1, weight=1)
-    
-    srcLabel = tk.StringVar()
-    srcLabel.set(src)
-
-    tk.Label(root, text='Choose Source Directory:').grid(row=0,column=0, padx=1, pady=1)
-    
-    tk.Button(root, text='choose folder', command=lambda: chooseFolder(srcLabel)).grid(row=0,column=1, padx=1, pady=1)
-    
-    tk.Label(root, textvariable=srcLabel).grid(row=1,column=0, padx=1, pady=1)
-
-    tk.Button(root, text='Organize!', command=lambda: print(organize())).grid(row=1,column=1, padx=1, pady=1)
-
-    root.mainloop()
-        
 
 def organize():
     # validate src folder

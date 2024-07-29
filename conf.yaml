@@ -1,0 +1,21 @@
+src: 'src folder'
+
+dest:
+ documents:
+  path: 'path to docs'
+  extensions:
+   - pdf
+   - odt
+   - xls
+
+ media:
+  path: 'path to media'
+  extensions:
+   - mp4
+   - mp3
+
+ photos:
+  path: 'path to photos'
+  extensions:
+   - jpg
+   - png
