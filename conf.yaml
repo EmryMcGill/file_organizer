@@ -1,21 +1,22 @@
-src: 'src folder'
+src: 
+ path: default
 
 dest:
  documents:
-  path: 'path to docs'
+  path: default
   extensions:
    - pdf
    - odt
    - xls
 
  media:
-  path: 'path to media'
+  path: default
   extensions:
    - mp4
    - mp3
 
  photos:
-  path: 'path to photos'
+  path: default
   extensions:
    - jpg
    - png

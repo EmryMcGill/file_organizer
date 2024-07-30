@@ -14,24 +14,44 @@ misc = '/home/emry/Documents/misc'
 
 
 def main():
-    pass
+    initialize()
 
+    organize()
+
+def initialize():
+    # get the configuration settings from file
+    global conf
+    with open('conf.yaml', 'r') as f:
+        conf = yaml.safe_load(f)
+
+    # loop conf to set default paths
+    if conf['src']['path'] == 'default':
+        conf['src']['path'] = os.path.join(os.path.expanduser('~'), 'Downloads')
+
+    for key, val in conf['dest'].items():
+        if val['path'] == 'default':
+            # set to default path
+            conf['dest'][key]['path'] = os.path.join(os.path.expanduser('~'), 'Documents', key)
+            # make sure the dest folder exists
+            try:
+                os.mkdir(os.path.join(os.path.expanduser('~'), 'Documents', key))
+            except:
+                continue
 
 def organize():
     # validate src folder
-    global src
-    if src == '':
+    if conf['src']['path'] == '':
         return False
-    if src == os.path.expanduser('~'):
+    if conf['src']['path'] == os.path.expanduser('~'):
         return False
 
     # get list of all files in the downloads folder
-    files = os.listdir(src)
+    files = os.listdir(conf['src']['path'])
 
     # for all files in list, check file type and move into proper folder
     for file in files:
         # check if its a file or dir
-        if os.path.isfile(os.path.join(src, file)):
+        if os.path.isfile(os.path.join(conf['src']['path'], file)):
             moveFile(file)
         else:
             moveDir(file)
@@ -41,15 +61,16 @@ def organize():
 def moveFile(file):
     # get file extension
     ext = re.split(r'[.]', file).pop()
+    
     # put in correct destination
-    if ext == 'pdf' or ext == 'odt' or ext == 'xls':
-        os.rename(os.path.join(src, file), os.path.join(docs, file))
-    elif ext == 'mp4' or ext == 'mp3':
-        os.rename(os.path.join(src, file), os.path.join(media, file))
-    elif ext == 'jpg' or ext == 'png':
-        os.rename(os.path.join(src, file), os.path.join(photos, file))
-    else:
-        os.rename(os.path.join(src, file), os.path.join(misc, file))
+    
+    # loop over possible destinations until a ext match is found 
+    for key, val in conf['dest'].items():
+        for item in val['extensions']:
+            # check if ext match
+            if ext == item:
+                # move file to current type
+                os.rename(os.path.join(conf['src']['path'], file), os.path.join(conf['dest'][key]['path'], file))
 
 
 def moveDir(dir):
